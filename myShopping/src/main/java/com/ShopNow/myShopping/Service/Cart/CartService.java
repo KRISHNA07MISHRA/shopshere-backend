@@ -33,10 +33,7 @@ public class CartService {
     @Transactional
     public CartResponseDTO getCartDetails(AppUser user) {
 
-        Cart cart = cartRepo.findByUser(user)
-                .orElseThrow(() -> new org.springframework.web.server.ResponseStatusException(
-                        org.springframework.http.HttpStatus.NOT_FOUND,
-                        "Cart not found"));
+        Cart cart = getOrCreateCart(user);
 
         java.util.List<CartItemResponseDTO> items =
                 cartItemRepo.findByCartId(cart.getId())
